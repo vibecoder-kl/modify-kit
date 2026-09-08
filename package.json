@@ -11,9 +11,20 @@
   "author": "ModifyKit",
   "license": "MIT",
   "private": true,
+
   "vercel": {
-    "rewrites": [
-      { "source": "/(.*)", "destination": "/index.html" }
-    ]
-  }
+
+
+  "rewrites": [
+
+
+    { "source": "/(.*)", "destination": "/index.html" }
+
+
+
+
+
+  ]
+
+}
 }
