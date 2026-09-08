@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ModifyKit - All-in-one digital utility platform. Crop images, convert documents, process media - all client-side, 100% free." />
+  <title>ModifyKit - All-in-One Digital Utility Platform</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="favicon.svg" />
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsense.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+  <!-- Navbar -->
+  <nav id="navbar" class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="text-xl font-bold text-blue-600">ModifyKit</div>
+      <div class="flex items-center space-x-4">
+        <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700">
+          <span id="theme-icon">🌙</span>
+        </button>
+        <a href="docs/privacy.html" class="text-sm hover:text-blue-600">Privacy</a>
+        <a href="docs/contact.html" class="text-sm hover:text-blue-600">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-8">
+    <!-- Hero Section -->
+    <section class="text-center mb-12">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">All-in-One Digital Utility Platform</h1>
+      <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">무료로 이미지 편집, PDF 처리, 파일 변환을 완료하세요. 파일은 절대 업로드되지 않습니다.</p>
+      <div class="flex justify-center gap-4 flex-wrap">
+        <button onclick="showTool('image-tools')" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
+          이미지 도구
+        </button>
+        <button onclick="showTool('pdf-tools')" class="px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition">
+          PDF 도구
+        </button>
+      </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools-section" class="mb-12">
+      <h2 class="text-2xl font-bold mb-6">사용 가능한 15가지 도구 카테고리</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('image-tools')">
+          <div class="text-3xl mb-3">🖼️</div>
+          <h3 class="font-bold mb-2">이미지 도구</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">리사이징, 크롭, 포맷 변환, 압축</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('background-remover')">
+          <div class="text-3xl mb-3">✂️</div>
+          <h3 class="font-bold mb-2">배경 제거</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">AI로 이미지 배경 자동 제거</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('pdf-tools')">
+          <div class="text-3xl mb-3">📄</div>
+          <h3 class="font-bold mb-2">PDF 도구</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">병합, 분할, 압축, 변환</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('pdf-convert')">
+          <div class="text-3xl mb-3">🔄</div>
+          <h3 class="font-bold mb-2">PDF ↔ 이미지</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">PDF을 이미지로, 이미지를 PDF로</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('text-tools')">
+          <div class="text-3xl mb-3">📝</div>
+          <h3 class="font-bold mb-2">텍스트 도구</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">문자/단어수, 포맷 변환</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('text-advanced')">
+          <div class="text-3xl mb-3">🔤</div>
+          <h3 class="font-bold mb-2">텍스트 고급 도구</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">대소문자, 정규식, JSON↔CSV</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('media-tools')">
+          <div class="text-3xl mb-3">🎬</div>
+          <h3 class="font-bold mb-2">미디어 변환</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">영상/음성 변환, MP3 추출</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('media-advanced')">
+          <div class="text-3xl mb-3">✂️</div>
+          <h3 class="font-bold mb-2">미디어 고급</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">트림, 머지, 속도 조절</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('qr-tools')">
+          <div class="text-3xl mb-3">📱</div>
+          <h3 class="font-bold mb-2">QR/Barcode</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">QR 생성/스캔, 바코드 생성</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('dev-tools')">
+          <div class="text-3xl mb-3">💻</div>
+          <h3 class="font-bold mb-2">개발자 도구</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">JSON 포맷터, Base64, UUID</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('dev-tools-extended')">
+          <div class="text-3xl mb-3">🔧</div>
+          <h3 class="font-bold mb-2">개발자 확장 도구</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">URL 인코딩, 컬러 변환, 해시</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('color-tools')">
+          <div class="text-3xl mb-3">🎨</div>
+          <h3 class="font-bold mb-2">컬러 도구</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">컬러 피커, 변환, 팔레트 추출</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('converter-tools')">
+          <div class="text-3xl mb-3">📐</div>
+          <h3 class="font-bold mb-2">단위 변환기</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">길이, 무게, 온도, 환율</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('security-tools')">
+          <div class="text-3xl mb-3">🔒</div>
+          <h3 class="font-bold mb-2">보안 도구</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">비밀번호 생성, 해시 함수</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('tts-tools')">
+          <div class="text-3xl mb-3">🗣️</div>
+          <h3 class="font-bold mb-2">문자음성변환</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">텍스트를 음성으로</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('calculator-tools')">
+          <div class="text-3xl mb-3">🔢</div>
+          <h3 class="font-bold mb-2">계산기</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">4칙연산, %, ÷</p>
+        </div>
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700" onclick="showTool('timer-tools')">
+          <div class="text-3xl mb-3">⏱️</div>
+          <h3 class="font-bold mb-2">타이머/스톱워치</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">카운트다운, 랩타임</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool Views (initially hidden) -->
+    <div id="tool-views">
+      <!-- Tool views will be dynamically inserted here -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-6 mt-12">
+    <div class="container mx-auto px-4 text-center text-sm text-gray-600 dark:text-gray-400">
+      <p>&copy; 2024 ModifyKit. All rights reserved.</p>
+      <p class="mt-2">100% 브라우저 기반 처리. 파일은 서버로 전송되지 않습니다.</p>
+      <!-- Affiliate Links -->
+      <div class="mt-4 text-xs text-gray-500 dark:text-gray-500">
+        <p class="mb-1">도구 추천 (제휴 링크, 이용료 발생):</p>
+        <div class="flex flex-wrap justify-center gap-2">
+          <a href="https://linode.com/?r=affiliate_link" target="_blank" class="hover:text-blue-500">Linode (클라우드 VPS)</a>
+          <a href="https://www.digitalocean.com/?ref=digitaloceansocial" target="_blank" class="hover:text-blue-500">DigitalOcean</a>
+          <a href="https://www.heroku.com/?via=affiliate" target="_blank" class="hover:text-blue-500">Heroku</a>
+        </div>
+      </div>
+      <!-- AdSense ad slot -->
+      <div class="mt-4">
+        <ins class="adsbygoogle ad-container" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS Files -->
+  <script src="js/stripe-checkout.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/router.js"></script>
+</body>
+</html>
