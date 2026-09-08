@@ -11,6 +11,13 @@
   <meta property="og:description" content="품질을 유지하면서 PDF 파일 크기를 줄이세요. 이메일 첨부파일과 저장에 적합합니다.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://modifykit.com/pdf-compress">
+  <!-- Tailwind CSS Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {}
+    }
+  </script>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="../css/styles.css">
@@ -22,6 +29,9 @@
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <a href="/" class="text-xl font-bold text-blue-600">ModifyKit</a>
       <div class="text-sm text-gray-600 dark:text-gray-400">100% 브라우저 기반 | 파일 업로드 없음</div>
+                <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700">
+          <span id="theme-icon">🌙</span>
+        </button>
     </div>
   </nav>
 
@@ -93,9 +103,59 @@
     </div>
   </footer>
 
-  <script src="../js/components.js"></script>
   <script>
-    showTool('pdf-compress');
+    // Initialize PDF Compressor tool
+    const toolContent = document.getElementById('pdf-compress-content');
+    if (toolContent) {
+      toolContent.innerHTML = `
+        <div class="space-y-4">
+          <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center" id="dropzone">
+            <div class="text-4xl mb-3">🗜️</div>
+            <p class="text-gray-600 dark:text-gray-400">PDF 파일 용량을 압축하여 줄이세요</p>
+            <input type="file" id="fileInput" class="hidden">
+          </div>
+          <textarea id="textInput" placeholder="텍스트를 입력하세요..." class="w-full h-32 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+          <button id="actionBtn" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">
+            처리
+          </button>
+          <div id="result" class="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg hidden">
+            <pre id="resultContent" class="whitespace-pre-wrap break-all"></pre>
+          </div>
+        </div>
+      `;
+      
+      const dropzone = document.getElementById('dropzone');
+      const fileInput = document.getElementById('fileInput');
+      const textInput = document.getElementById('textInput');
+      const actionBtn = document.getElementById('actionBtn');
+      const result = document.getElementById('result');
+      const resultContent = document.getElementById('resultContent');
+      
+      const setOutput = (text) => {
+        resultContent.textContent = text;
+        result.classList.remove('hidden');
+      };
+      
+      dropzone.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (ev) => textInput.value = ev.target.result;
+          reader.readAsText(file);
+        }
+      });
+      
+      actionBtn.onclick = () => {
+        const input = textInput.value;
+        if (!input.trim()) {
+          alert('텍스트를 입력해주세요.');
+          return;
+        }
+        setOutput(input);
+      };
+    }
   </script>
+  <script src="../js/theme.js"></script>
 </body>
 </html>

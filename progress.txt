@@ -1,0 +1,74 @@
+ModifyKit Vercel 배포 프로젝트 진행 상황
+==========================================
+
+최종 업데이트: 2026년 9월 8일
+
+## 완료된 작업
+
+1. **Vercel 프로젝트 생성 및 배포**
+   - Vercel CLI 설치 (v59.11.7)
+   - Vercel 계정 인증 완료
+   - modify-kit 프로젝트 생성
+   - 도메인 modifykit.com 연결 완료 (A 레코드: 216.198.79.1, 64.29.17.1)
+   - 프로덕션 배포 완료: https://modifykit.com
+
+2. **Application Preset 및 Build 설정**
+   - 정적 HTML/CSS/JS 사이트 (Next.js 아님)
+   - Framework: Other
+   - Build Command: 없음
+   - Output Directory: . (루트)
+   - vercel.json: rewrites, trailingSlash 설정
+
+3. **landing 디렉토리 페이지 기능 구현**
+   - 30개 landing HTML 파일 존재
+   - 각 페이지가 자체 JavaScript 기능 포함
+   - 주요 도구:
+     * image-resize.html: 이미지 리사이징 (플리셋 기능 포함)
+     * background-remover.html: 배경 제거
+     * pdf-merge.html: PDF 병합
+     * word-count.html: 단어/문자 카운트
+     * audio-to-mp3.html, barcode-generator.html, base64-converter.html 등
+
+4. **이미지 리사이저 프리셋 기능 추가**
+   - 9개의 인기 SNS 플랫폼별 최적 사이즈 프리셋
+   - 각 프리셋 버튼에 서비스 로고 SVG 아이콘 추가
+   - 지원 플랫폼: YouTube, Instagram, Facebook, X(Twitter), LinkedIn, TikTok, Reels/Shorts
+   - 프리셋 버튼 클릭 시 가로/세로 값 자동 입력
+   - 서비스 로고: /workspace/modify-kit/img/ 디렉토리에 SVG 아이콘 저장
+
+5. **테마 토글 (주간/야간 모드) 기능 수정**
+   - Tailwind CSS CDN에서 darkMode: 'class' 설정 명시
+   - js/theme.js 공통 테마 스크립트 생성
+   - localStorage에 테마 설정 저장 및 복원
+   - 모든 landing 페이지에 테마 토글 버튼 추가
+   - 테마 아이콘 (🌙/☀️) 상태 유지
+
+6. **기술 스택**
+   - 정적 호스팅 (GitHub Pages/Vercel)
+   - Vanilla JavaScript (의존성 없음)
+   - Tailwind CSS (CDN)
+   - 외부 라이브러리: PDFLib (PDF 처리), bwip-js (바코드)
+
+## 현재 상태
+
+- Vercel 배포 URL: https://modifykit.com
+- 프로젝트 ID: prj_6bE9HFfYnh8UZ7ieanpWNu1V2KQq
+- 배포 ID: dpl_ARCeoK1vEqjsNF98C8beUaAQ2u11
+- 상태: READY (Production)
+
+## 다음 작업 예정
+
+1. 나머지 landing 페이지의 기능 강화
+2. 이미지 압축, 크롭, 포맷 변환 기능 추가
+3. QR 코드 생성/스캔 기능 구현
+4. 텍스트 변환 도구 (대소문자, Base64, JSON↔CSV) 구현
+5. 미디어 변환 도구 (영상/오디오 변환, MP3 추출) 구현
+6. 정규식 테스터 기능 추가
+7. 비밀번호 생성기 기능 구현
+
+## 기술 이슈 기록
+
+- Vercel CLI npm install 시 시간 초과 발생 → 백그라운드 처리로 해결
+- vercel.json cleanOutputs 속성 제거 (지원되지 않음)
+- landing 페이지의 showTool() 함수가 비어있는 내용 영역을 표시하는 문제 → 인라인 JavaScript로 대체
+- Tailwind CDN darkMode 기본값이 'media' → 'class'로 변경 필요성 발견

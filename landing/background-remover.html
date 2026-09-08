@@ -11,6 +11,13 @@
   <meta property="og:description" content="AI 기술을 사용하여 이미지 배경을 자동으로 제거하세요. 제품 사진, 초상화, 디자인 프로젝트에 적합합니다.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://modifykit.com/background-remover">
+  <!-- Tailwind CSS Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {}
+    }
+  </script>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="../css/styles.css">
@@ -22,6 +29,9 @@
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <a href="/" class="text-xl font-bold text-blue-600">ModifyKit</a>
       <div class="text-sm text-gray-600 dark:text-gray-400">100% 브라우저 기반 | 파일 업로드 없음</div>
+                <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700">
+          <span id="theme-icon">🌙</span>
+        </button>
     </div>
   </nav>
 
@@ -60,7 +70,29 @@
     <!-- Tool Container -->
     <div id="tool" class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700 mb-8">
       <h2 class="text-2xl font-bold mb-6">AI Background Remover 사용하기</h2>
-      <div id="background-remover-content"></div>
+      <div id="background-remover-content">
+        <div class="space-y-4">
+          <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center" id="dropzone-bg">
+            <div class="text-4xl mb-3">📎</div>
+            <p class="text-gray-600 dark:text-gray-400">이미지 파일을 드래그&드롭하거나 클릭하여 업로드</p>
+            <p class="text-xs text-gray-500 mt-1">JPG, PNG, WebP 지원</p>
+            <input type="file" id="bgInput" accept="image/*" class="hidden">
+          </div>
+          <div class="text-center text-sm text-gray-600 dark:text-gray-400" id="bg-status" style="display:none;">
+            이미지를 업로드하면 자동으로 배경이 제거됩니다.
+          </div>
+          <div id="bg-result" class="hidden">
+            <div class="flex justify-center">
+              <canvas id="bgCanvas" class="max-w-full rounded-lg border border-gray-200 dark:border-gray-700"></canvas>
+            </div>
+            <div class="flex justify-center mt-4">
+              <a id="bg-download" href="#" download="removed-bg.png" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">
+                투명 배경 이미지 다운로드
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- How to Use -->
@@ -93,9 +125,68 @@
     </div>
   </footer>
 
-  <script src="../js/components.js"></script>
   <script>
-    showTool('background-remover');
+    const dropzone = document.getElementById('dropzone-bg');
+    const bgInput = document.getElementById('bgInput');
+    const bgStatus = document.getElementById('bg-status');
+    const bgResult = document.getElementById('bg-result');
+    const bgCanvas = document.getElementById('bgCanvas');
+    const bgDownload = document.getElementById('bg-download');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(ev => {
+      dropzone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); });
+    });
+    ['dragenter', 'dragover'].forEach(ev => {
+      dropzone.addEventListener(ev, () => dropzone.classList.add('border-blue-500'));
+    });
+    ['dragleave', 'drop'].forEach(ev => {
+      dropzone.addEventListener(ev, () => dropzone.classList.remove('border-blue-500'));
+    });
+
+    dropzone.addEventListener('click', () => bgInput.click());
+    dropzone.addEventListener('drop', e => {
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) removeBackground(file);
+    });
+    bgInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) removeBackground(file);
+    });
+
+    function removeBackground(file) {
+      bgStatus.style.display = 'block';
+      const img = new Image();
+      img.onload = function() {
+        bgCanvas.width = img.width;
+        bgCanvas.height = img.height;
+        const ctx = bgCanvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        const imageData = ctx.getImageData(0, 0, img.width, img.height);
+        const data = imageData.data;
+        // Simple background removal based on corner pixel color
+        const cornerColor = { r: data[0], g: data[1], b: data[2] };
+        const threshold = 30;
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i], g = data[i+1], b = data[i+2];
+          const diff = Math.sqrt(
+            Math.pow(r - cornerColor.r, 2) +
+            Math.pow(g - cornerColor.g, 2) +
+            Math.pow(b - cornerColor.b, 2)
+          );
+          if (diff < threshold) {
+            data[i+3] = 0; // Set alpha to 0 (transparent)
+          }
+        }
+        ctx.putImageData(imageData, 0, 0);
+        bgCanvas.toBlob(blob => {
+          bgDownload.href = URL.createObjectURL(blob);
+          bgResult.classList.remove('hidden');
+          bgStatus.style.display = 'none';
+        }, 'image/png');
+      };
+      img.src = URL.createObjectURL(file);
+    }
   </script>
+  <script src="../js/theme.js"></script>
 </body>
 </html>

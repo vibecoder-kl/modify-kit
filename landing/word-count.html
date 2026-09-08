@@ -11,6 +11,13 @@
   <meta property="og:description" content="텍스트의 단어, 문자, 줄, 문단 수를 세어세요. 작가와 학생들을 위한 실시간 카운팅.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://modifykit.com/word-count">
+  <!-- Tailwind CSS Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {}
+    }
+  </script>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="../css/styles.css">
@@ -22,6 +29,9 @@
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <a href="/" class="text-xl font-bold text-blue-600">ModifyKit</a>
       <div class="text-sm text-gray-600 dark:text-gray-400">100% 브라우저 기반 | 파일 업로드 없음</div>
+                <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700">
+          <span id="theme-icon">🌙</span>
+        </button>
     </div>
   </nav>
 
@@ -60,7 +70,29 @@
     <!-- Tool Container -->
     <div id="tool" class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700 mb-8">
       <h2 class="text-2xl font-bold mb-6">Word Counter 사용하기</h2>
-      <div id="word-count-content"></div>
+      <div id="word-count-content">
+        <div class="space-y-4">
+          <textarea id="textInput" placeholder="텍스트를 입력하세요..." class="w-full h-48 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mt-4">
+            <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+              <div class="text-2xl font-bold" id="char-count">0</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">문자</div>
+            </div>
+            <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+              <div class="text-2xl font-bold" id="word-count">0</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">단어</div>
+            </div>
+            <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+              <div class="text-2xl font-bold" id="line-count">0</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">줄</div>
+            </div>
+            <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+              <div class="text-2xl font-bold" id="para-count">0</div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">문단</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- How to Use -->
@@ -93,9 +125,29 @@
     </div>
   </footer>
 
-  <script src="../js/components.js"></script>
   <script>
-    showTool('word-count');
+    const textInput = document.getElementById('textInput');
+    const charCount = document.getElementById('char-count');
+    const wordCount = document.getElementById('word-count');
+    const lineCount = document.getElementById('line-count');
+    const paraCount = document.getElementById('para-count');
+
+    const updateCounts = () => {
+      const text = textInput.value;
+      const chars = text.length;
+      const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+      const lines = text === '' ? 0 : text.split('\n').length;
+      const paras = text === '' ? 0 : text.split(/\n\n+/).filter(p => p.trim()).length;
+      
+      charCount.textContent = chars;
+      wordCount.textContent = words;
+      lineCount.textContent = lines;
+      paraCount.textContent = paras;
+    };
+
+    textInput.addEventListener('input', updateCounts);
+    updateCounts();
   </script>
+  <script src="../js/theme.js"></script>
 </body>
 </html>

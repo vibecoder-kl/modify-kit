@@ -192,4 +192,19 @@ const showDashboard = () => {
 // Initialize components on page load
 document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
+  
+  // Preserve theme across page loads
+  const theme = localStorage.getItem('theme') || 'light';
+  if (theme === 'dark') {
+    document.documentElement.classList.add('dark');
+    const themeIcon = document.getElementById('theme-icon');
+    if (themeIcon) themeIcon.textContent = '☀️';
+  }
 });
+
+// Also initialize on script load (for dynamically loaded content)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initThemeToggle);
+} else {
+  initThemeToggle();
+}

@@ -11,6 +11,13 @@
   <meta property="og:description" content="여러 PDF 파일을 하나로 병합하세요. 무료 온라인 도구로 등록이 필요하지 않습니다.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://modifykit.com/pdf-merge">
+  <!-- Tailwind CSS Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {}
+    }
+  </script>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="../css/styles.css">
@@ -22,6 +29,9 @@
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <a href="/" class="text-xl font-bold text-blue-600">ModifyKit</a>
       <div class="text-sm text-gray-600 dark:text-gray-400">100% 브라우저 기반 | 파일 업로드 없음</div>
+                <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700">
+          <span id="theme-icon">🌙</span>
+        </button>
     </div>
   </nav>
 
@@ -60,7 +70,30 @@
     <!-- Tool Container -->
     <div id="tool" class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700 mb-8">
       <h2 class="text-2xl font-bold mb-6">Merge PDF Online 사용하기</h2>
-      <div id="pdf-merge-content"></div>
+      <div id="pdf-merge-content">
+        <div class="space-y-4">
+          <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center" id="pdft-dropzone">
+            <div class="text-4xl mb-3">📂</div>
+            <p class="text-gray-600 dark:text-gray-400">PDF 파일을 드래그&드롭하거나 클릭하여 업로드 (여러 파일 가능)</p>
+            <p class="text-xs text-gray-500 mt-1">PDF 파일만 지원</p>
+            <input type="file" id="pdfInput" accept="application/pdf" multiple class="hidden">
+          </div>
+          <div id="pdf-file-list" class="space-y-2"></div>
+          <button id="mergeBtn" disabled class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition disabled:bg-gray-400">
+            PDF 병합
+          </button>
+          <div id="pdf-result" class="hidden">
+            <div class="flex justify-center">
+              <iframe id="pdfPreview" class="w-full h-64 border border-gray-200 dark:border-gray-700 rounded-lg"></iframe>
+            </div>
+            <div class="flex justify-center mt-4">
+              <a id="pdfDownload" href="#" download="merged.pdf" class="px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700">
+                병합된 PDF 다운로드
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- How to Use -->
@@ -93,9 +126,86 @@
     </div>
   </footer>
 
-  <script src="../js/components.js"></script>
   <script>
-    showTool('pdf-merge');
+    const dropzone = document.getElementById('pdft-dropzone');
+    const pdfInput = document.getElementById('pdfInput');
+    const fileList = document.getElementById('pdf-file-list');
+    const mergeBtn = document.getElementById('mergeBtn');
+    const pdfResult = document.getElementById('pdf-result');
+    const pdfDownload = document.getElementById('pdfDownload');
+    const pdfPreview = document.getElementById('pdfPreview');
+    
+    let pdfFiles = [];
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(ev => {
+      dropzone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); });
+    });
+    dropzone.addEventListener('click', () => pdfInput.click());
+    dropzone.addEventListener('drop', e => {
+      const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+      addFiles(files);
+    });
+    pdfInput.addEventListener('change', e => addFiles(Array.from(e.target.files)));
+
+    function addFiles(files) {
+      pdfFiles.push(...files);
+      updateFileList();
+    }
+
+    function updateFileList() {
+      fileList.innerHTML = pdfFiles.map((file, i) => `
+        <div class="flex justify-between items-center p-2 bg-gray-100 dark:bg-gray-700 rounded">${file.name} (${(file.size/1024).toFixed(1)}KB)
+          <button onclick="removeFile(${i})" class="text-red-500">삭제</button>
+        </div>
+      `).join('');
+      mergeBtn.disabled = pdfFiles.length < 2;
+    }
+
+    window.removeFile = (i) => {
+      pdfFiles.splice(i, 1);
+      updateFileList();
+    };
+
+    mergeBtn.onclick = async () => {
+      mergeBtn.disabled = true;
+      mergeBtn.textContent = '병합 중...';
+      
+      try {
+        // Use PDFLib via CDN
+        if (typeof PDFLib === 'undefined') {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js';
+          await new Promise((resolve, reject) => {
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+          });
+        }
+        
+        const { PDFDocument } = PDFLib;
+        const mergedPdf = await PDFDocument.create();
+        
+        for (const file of pdfFiles) {
+          const arrayBuffer = await file.arrayBuffer();
+          const srcPdf = await PDFDocument.load(arrayBuffer);
+          const copiedPages = await mergedPdf.copyPages(srcPdf, srcPdf.getPageIndices());
+          copiedPages.forEach(page => mergedPdf.addPage(page));
+        }
+        
+        const mergedPdfBytes = await mergedPdf.save();
+        const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        pdfDownload.href = url;
+        pdfPreview.src = url;
+        pdfResult.classList.remove('hidden');
+      } catch (err) {
+        alert('PDF 병합 중 오류가 발생했습니다.');
+      } finally {
+        mergeBtn.disabled = false;
+        mergeBtn.textContent = 'PDF 병합';
+      }
+    };
   </script>
+  <script src="../js/theme.js"></script>
 </body>
 </html>

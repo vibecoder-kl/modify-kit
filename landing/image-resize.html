@@ -5,16 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="이미지를 원하는 크기로 쉽고 빠르게 리사이징하세요. JPG, PNG, WebP 포맷을 지원합니다. 브라우저에서 모든 처리가 완료되며 업로드가 필요하지 않습니다!">
   <title>Image Resizer - ModifyKit | 이미지 리사이징</title>
-  <meta name="keywords" content="image resize, image resizer, resize image, image dimensions, thumbnail maker">
-  <!-- Open Graph -->
-  <meta property="og:title" content="Image Resizer - ModifyKit">
-  <meta property="og:description" content="이미지를 원하는 크기로 쉽고 빠르게 리사이징하세요. JPG, PNG, WebP 포맷을 지원합니다. 브라우저에서 모든 처리가 완료되며 업로드가 필요하지 않습니다!">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://modifykit.com/image-resize">
+  <!-- Tailwind CSS Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {}
+    }
+  </script>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <style>
+    .dropzone { border: 2px dashed #cbd5e7; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; }
+    .dropzone.dragover { border-color: #3b82f6; background: #eff6ff; }
+    .preset-btn { transition: all 0.2s; }
+    .preset-btn:hover { transform: translateY(-1px); }
+    .preset-btn.active { background: #3b82f6; color: white; }
+  </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
   <!-- Navbar -->
@@ -22,6 +30,9 @@
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <a href="/" class="text-xl font-bold text-blue-600">ModifyKit</a>
       <div class="text-sm text-gray-600 dark:text-gray-400">100% 브라우저 기반 | 파일 업로드 없음</div>
+                <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700">
+          <span id="theme-icon">🌙</span>
+        </button>
     </div>
   </nav>
 
@@ -60,15 +71,105 @@
     <!-- Tool Container -->
     <div id="tool" class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700 mb-8">
       <h2 class="text-2xl font-bold mb-6">Image Resizer 사용하기</h2>
-      <div id="image-resize-content"></div>
+      <div id="image-resize-content">
+        <div class="space-y-4">
+          <!-- File Upload Area -->
+          <div class="dropzone" id="dropzone">
+            <p class="text-gray-500 dark:text-gray-400">이미지 파일을 드래그&드롭하거나 클릭하여 업로드</p>
+            <input type="file" id="imageInput" accept="image/*" class="hidden">
+          </div>
+
+          <!-- Preset Buttons -->
+          <div class="mb-4">
+            <h3 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">인기 있는 사이즈 프리셋</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+              <button class="preset-btn px-3 py-2 text-left text-sm rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" data-w="1280" data-h="720">
+                <img src="../img/youtube.svg" alt="YouTube" class="inline-block w-5 h-5 mr-1"> YouTube 1280×720
+              </button>
+              <button class="preset-btn px-3 py-2 text-left text-sm rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" data-w="1080" data-h="1350">
+                <img src="../img/instagram.svg" alt="Instagram" class="inline-block w-5 h-5 mr-1"> Instagram 1080×1350
+              </button>
+              <button class="preset-btn px-3 py-2 text-left text-sm rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" data-w="1080" data-h="1080">
+                <img src="../img/instagram.svg" alt="Instagram" class="inline-block w-5 h-5 mr-1"> Instagram 1080×1080
+              </button>
+              <button class="preset-btn px-3 py-2 text-left text-sm rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" data-w="100" data-h="100">
+                <img src="../img/profile.svg" alt="Profile" class="inline-block w-5 h-5 mr-1"> 프로필 100×100
+              </button>
+              <button class="preset-btn px-3 py-2 text-left text-sm rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" data-w="1200" data-h="630">
+                <img src="../img/facebook.svg" alt="Facebook" class="inline-block w-5 h-5 mr-1"> Facebook 1200×630
+              </button>
+              <button class="preset-btn px-3 py-2 text-left text-sm rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" data-w="800" data-h="450">
+                <img src="../img/x.svg" alt="X" class="inline-block w-5 h-5 mr-1"> X 800×450
+              </button>
+              <button class="preset-btn px-3 py-2 text-left text-sm rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" data-w="1920" data-h="1080">
+                <img src="../img/youtube.svg" alt="YouTube" class="inline-block w-5 h-5 mr-1"> YouTube 1920×1080
+              </button>
+              <button class="preset-btn px-3 py-2 text-left text-sm rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" data-w="300" data-h="300">
+                <img src="../img/linkedin.svg" alt="LinkedIn" class="inline-block w-5 h-5 mr-1"> LinkedIn 300×300
+              </button>
+              <button class="preset-btn px-3 py-2 text-left text-sm rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" data-w="1080" data-h="1920">
+                <img src="../img/tiktok.svg" alt="TikTok" class="inline-block w-5 h-5 mr-1"> TikTok 1080×1920
+              </button>
+            </div>
+          </div>
+
+          <!-- Dimension Inputs -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium mb-1">가로 너비 (px)</label>
+              <input type="number" id="width" min="1" value="800" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700">
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">세로 높이 (px)</label>
+              <input type="number" id="height" min="1" value="600" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700">
+            </div>
+          </div>
+
+          <!-- Format Options -->
+          <div class="flex items-center space-x-4">
+            <label class="flex items-center">
+              <input type="checkbox" id="maintainRatio" class="mr-2">
+              <span class="text-sm">비율 유지</span>
+            </label>
+            <label class="flex items-center">
+              <input type="radio" name="format" value="png" class="mr-2" checked>
+              <span class="text-sm">PNG</span>
+            </label>
+            <label class="flex items-center">
+              <input type="radio" name="format" value="jpeg" class="mr-2">
+              <span class="text-sm">JPG</span>
+            </label>
+            <label class="flex items-center">
+              <input type="radio" name="format" value="webp" class="mr-2">
+              <span class="text-sm">WebP</span>
+            </label>
+          </div>
+
+          <!-- Resize Button -->
+          <button id="resizeBtn" disabled class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition disabled:bg-gray-400">
+            이미지 리사이징
+          </button>
+
+          <!-- Result -->
+          <div id="result" class="hidden">
+            <h3 class="font-bold mb-2">결과</h3>
+            <div class="flex items-center justify-between">
+              <a id="downloadLink" href="#" download class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                다운로드
+              </a>
+              <span id="fileSize" class="text-sm text-gray-600 dark:text-gray-400"></span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- How to Use -->
     <div class="prose dark:prose-invert max-w-none">
       <h2 class="text-2xl font-bold mb-4">사용 방법</h2>
       <ol class="space-y-2 text-gray-600 dark:text-gray-400">
-        <li><strong>1단계:</strong> 파일을 업로드하거나 텍스트를 입력하세요.</li>
-        <li><strong>2단계:</strong> 원하는 옵션을 설정하고 처리 버튼을 클릭하세요.</li>
+        <li><strong>1단계:</strong> 이미지 파일을 업로드하세요.</li>
+        <li><strong>2단계:</strong> 원하는 크기나 프리셋 버튼을 클릭하세요.</li>
         <li><strong>3단계:</strong> 결과를 미리보기하고 다운로드하세요.</li>
       </ol>
       <h3 class="text-xl font-bold mt-6 mb-2">장점</h3>
@@ -93,9 +194,106 @@
     </div>
   </footer>
 
-  <script src="../js/components.js"></script>
   <script>
-    showTool('image-resize');
+    const dropzone = document.getElementById('dropzone');
+    const imageInput = document.getElementById('imageInput');
+    const widthInput = document.getElementById('width');
+    const heightInput = document.getElementById('height');
+    const maintainRatio = document.getElementById('maintainRatio');
+    const resizeBtn = document.getElementById('resizeBtn');
+    const resultDiv = document.getElementById('result');
+    const downloadLink = document.getElementById('downloadLink');
+    const fileSizeSpan = document.getElementById('fileSize');
+    
+    let currentImage = null;
+    let originalWidth = 0;
+    let originalHeight = 0;
+
+    // Preset buttons
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        widthInput.value = btn.dataset.w;
+        heightInput.value = btn.dataset.h;
+        document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, preventDefaults, true);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, highlight, true);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, unhighlight, true);
+    });
+
+    function highlight() { dropzone.classList.add('dragover'); }
+    function unhighlight() { dropzone.classList.remove('dragover'); }
+
+    dropzone.addEventListener('drop', handleDrop, true);
+    dropzone.addEventListener('click', () => imageInput.click(), true);
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const file = dt.files[0];
+      if (file && file.type.startsWith('image/')) handleImage(file);
+    }
+
+    imageInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) handleImage(file);
+    });
+
+    function handleImage(file) {
+      currentImage = file;
+      const img = new Image();
+      img.onload = function() {
+        originalWidth = img.width;
+        originalHeight = img.height;
+        document.getElementById('resizeBtn').disabled = false;
+      };
+      img.src = URL.createObjectURL(file);
+    }
+
+    widthInput.addEventListener('input', () => {
+      if (maintainRatio.checked) heightInput.value = Math.round(widthInput.value * originalHeight / originalWidth);
+    });
+    heightInput.addEventListener('input', () => {
+      if (maintainRatio.checked) widthInput.value = Math.round(heightInput.value * originalWidth / originalHeight);
+    });
+
+    resizeBtn.addEventListener('click', () => {
+      const width = parseInt(widthInput.value);
+      const height = parseInt(heightInput.value);
+      const format = document.querySelector('input[name="format"]:checked').value;
+      
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.onload = function() {
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(function(blob) {
+          const url = URL.createObjectURL(blob);
+          downloadLink.href = url;
+          downloadLink.download = `resized_${width}x${height}.${format}`;
+          fileSizeSpan.textContent = `${(blob.size / 1024).toFixed(1)} KB`;
+          resultDiv.classList.remove('hidden');
+        }, `image/${format}`);
+      };
+      img.src = URL.createObjectURL(currentImage);
+    });
   </script>
+  <script src="../js/theme.js"></script>
 </body>
 </html>
