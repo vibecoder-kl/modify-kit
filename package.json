@@ -10,5 +10,10 @@
   "keywords": ["utility", "tools", "file-conversion", "image-tools", "pdf-tools"],
   "author": "ModifyKit",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "vercel": {
+    "rewrites": [
+      { "source": "/(.*)", "destination": "/index.html" }
+    ]
+  }
 }
