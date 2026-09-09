@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emoji & Special Characters - ModifyKit</title>
+  <meta name="description" content="특수문자, 이모지, 유니코드 등을 카테고리별로 검색하고 클릭 한 번으로 복사하세요.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Emoji & Special Characters">
+  <meta property="og:description" content="특수문자, 이모지, 유니코드 등을 카테고리별로 검색하고 클릭 한 번으로 복사하세요.">
+  <meta property="og:image" content="/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://modifykit.com">
+  
+  <!-- Preconnect to main site -->
+  <link rel="preconnect" href="https://modifykit.com">
+  
+  <!-- Canonical URL pointing to main page -->
+  <link rel="canonical" href="https://modifykit.com/emoji-char-tool/">
+  
+  <!-- Structured Data (JSON-LD) for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Emoji & Special Characters",
+    "description": "특수문자, 이모지, 유니코드 등을 카테고리별로 검색하고 클릭 한 번으로 복사하세요.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f9fafb;
+      color: #111827;
+    }
+    .container {
+      max-width: 640px;
+      margin: 40px auto;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      color: #6b7280;
+      margin-bottom: 2rem;
+    }
+    .loading {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      border: 3px solid #e5e7eb;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .redirect-link {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .redirect-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="loading" role="status"></div>
+    <h1>Emoji & Special Characters</h1>
+    <p>이 도구를 사용하는 중입니다. 자동으로 이동 중입니다...</p>
+    <p>
+      이동하지 않는 경우 
+      <a href="https://modifykit.com/#tool-emoji-char-tool" class="redirect-link">여기를 클릭하세요</a>
+    </p>
+  </div>
+  
+  <script>
+    // Redirect to SPA with tool anchor
+    var toolKey = 'emoji-char-tool';
+    
+    // Determine redirect target based on environment
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      // Local development: redirect to SPA with hash
+      window.location.href = '/#tool-' + toolKey;
+    } else {
+      // Production: redirect to main site
+      window.location.href = 'https://modifykit.com/#tool-' + toolKey;
+    }
+  </script>
+</body>
+</html>

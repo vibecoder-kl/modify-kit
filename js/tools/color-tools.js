@@ -1,6 +1,6 @@
 // color-tools.js - Color picker, converter, and palette extraction
 
-const initColorTools = () => {
+window.initColorTools = () => {
   const content = document.getElementById('color-tools-content');
   if (!content) return;
 

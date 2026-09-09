@@ -1,6 +1,6 @@
 // security-tools.js - Security and privacy tools
 
-const initSecurityTools = () => {
+window.initSecurityTools = () => {
   const content = document.getElementById('security-tools-content');
   if (!content) return;
 

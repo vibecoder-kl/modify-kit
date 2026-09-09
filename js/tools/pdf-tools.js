@@ -1,6 +1,6 @@
 // pdf-tools.js - PDF processing tools (merge, split, compress, convert)
 
-const initPdfTools = () => {
+window.initPdfTools = () => {
   const content = document.getElementById('pdf-tools-content');
   if (!content) return;
 

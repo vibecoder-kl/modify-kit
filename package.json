@@ -6,11 +6,21 @@
     "dev": "node server.js",
     "lint": "echo 'Use ESLint/Biome in future setup' && exit 0"
   },
-  "keywords": ["utility", "tools", "file-conversion", "image-tools", "pdf-tools"],
+  "keywords": [
+    "utility",
+    "tools",
+    "file-conversion",
+    "image-tools",
+    "pdf-tools"
+  ],
   "author": "ModifyKit",
   "license": "MIT",
   "private": true,
   "engines": {
     "node": ">=18.x"
+  },
+  "dependencies": {
+    "puppeteer": "^24.43.1",
+    "puppeteer-core": "^24.43.1"
   }
 }

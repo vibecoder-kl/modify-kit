@@ -1,7 +1,7 @@
 // media-advanced.js - Advanced media processing tools
 // (video trim, audio trim/merge, speed adjust, image slideshow to video)
 
-const initMediaAdvanced = () => {
+window.initMediaAdvanced = () => {
   const content = document.getElementById('media-advanced-content');
   if (!content) return;
 

@@ -3,159 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Format Converter - ModifyKit</title>
   <meta name="description" content="JPG, PNG, WebP 등 다양한 이미지 포맷 간 변환을 원클릭으로 처리하세요.">
-  <title>Image Format Converter - ModifyKit | 이미지 포맷 변환</title>
-  <meta name="keywords" content="image format converter, convert image format, jpg to png, png to jpg, webp converter">
+  
   <!-- Open Graph -->
-  <meta property="og:title" content="Image Format Converter - ModifyKit">
+  <meta property="og:title" content="Image Format Converter">
   <meta property="og:description" content="JPG, PNG, WebP 등 다양한 이미지 포맷 간 변환을 원클릭으로 처리하세요.">
+  <meta property="og:image" content="/favicon.svg">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://modifykit.com/image-format-convert">
-  <!-- Tailwind CSS Configuration -->
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {}
-    }
+  <meta property="og:url" content="https://modifykit.com">
+  
+  <!-- Preconnect to main site -->
+  <link rel="preconnect" href="https://modifykit.com">
+  
+  <!-- Canonical URL pointing to main page -->
+  <link rel="canonical" href="https://modifykit.com/image-tools/">
+  
+  <!-- Structured Data (JSON-LD) for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Image Format Converter",
+    "description": "JPG, PNG, WebP 등 다양한 이미지 포맷 간 변환을 원클릭으로 처리하세요.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All"
+  }
   </script>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f9fafb;
+      color: #111827;
+    }
+    .container {
+      max-width: 640px;
+      margin: 40px auto;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      color: #6b7280;
+      margin-bottom: 2rem;
+    }
+    .loading {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      border: 3px solid #e5e7eb;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .redirect-link {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .redirect-link:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
-  <!-- Navbar -->
-  <nav class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-      <a href="/" class="text-xl font-bold text-blue-600">ModifyKit</a>
-      <div class="text-sm text-gray-600 dark:text-gray-400">100% 브라우저 기반 | 파일 업로드 없음</div>
-                <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700">
-          <span id="theme-icon">🌙</span>
-        </button>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="bg-white dark:bg-gray-800 py-12 mb-8">
-    <div class="container mx-auto px-4 text-center">
-      <div class="text-4xl mb-4">🔄</div>
-      <h1 class="text-3xl md:text-4xl font-bold mb-4">Image Format Converter - ModifyKit</h1>
-      <p class="text-lg text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto">JPG, PNG, WebP 등 다양한 이미지 포맷 간 변환을 원클릭으로 처리하세요.</p>
-      <a href="#tool" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
-        바로 사용하기
-      </a>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="container mx-auto px-4 py-8">
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700">
-        <div class="text-2xl mb-2">🔒</div>
-        <h3 class="font-bold mb-2">프라이버시 보호</h3>
-        <p class="text-sm text-gray-600 dark:text-gray-400">100% 브라우저에서 처리. 파일은 서버로 전송되지 않습니다.</p>
-      </div>
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700">
-        <div class="text-2xl mb-2">⚡</div>
-        <h3 class="font-bold mb-2">즉시 처리</h3>
-        <p class="text-sm text-gray-600 dark:text-gray-400">클릭 한 번으로 빠른 결과를 확인하세요.</p>
-      </div>
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700">
-        <div class="text-2xl mb-2">📱</div>
-        <h3 class="font-bold mb-2">모든 기기 지원</h3>
-        <p class="text-sm text-gray-600 dark:text-gray-400">데스크톱, 태블릿, 모바일에서 동작합니다.</p>
-      </div>
-    </div>
-
-    <!-- Tool Container -->
-    <div id="tool" class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 border border-gray-200 dark:border-gray-700 mb-8">
-      <h2 class="text-2xl font-bold mb-6">Image Format Converter 사용하기</h2>
-      <div id="image-format-convert-content"></div>
-    </div>
-
-    <!-- How to Use -->
-    <div class="prose dark:prose-invert max-w-none">
-      <h2 class="text-2xl font-bold mb-4">사용 방법</h2>
-      <ol class="space-y-2 text-gray-600 dark:text-gray-400">
-        <li><strong>1단계:</strong> 파일을 업로드하거나 텍스트를 입력하세요.</li>
-        <li><strong>2단계:</strong> 원하는 옵션을 설정하고 처리 버튼을 클릭하세요.</li>
-        <li><strong>3단계:</strong> 결과를 미리보기하고 다운로드하세요.</li>
-      </ol>
-      <h3 class="text-xl font-bold mt-6 mb-2">장점</h3>
-      <ul class="space-y-1 text-gray-600 dark:text-gray-400">
-        <li>✓ 브라우저에서 모든 처리 - 파일 업로드 불필요</li>
-        <li>✓ 즉시 사용 가능 - 설치 필요 없음</li>
-        <li>✓ 프라이버시 보호 - 데이터가 절대 유출되지 않음</li>
-        <li>✓ 무료 - 기업용 플랜 없음</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-6 mt-12">
-    <div class="container mx-auto px-4 text-center text-sm text-gray-600 dark:text-gray-400">
-      <p>&copy; 2024 ModifyKit. All rights reserved.</p>
-      <p class="mt-2">100% 브라우저 기반 처리. 파일은 서버로 전송되지 않습니다.</p>
-      <div class="mt-2">
-        <a href="/docs/privacy.html" class="hover:text-blue-600">Privacy</a>
-        <a href="/docs/contact.html" class="hover:text-blue-600 ml-2">Contact</a>
-      </div>
-    </div>
-  </footer>
-
+<body>
+  <div class="container">
+    <div class="loading" role="status"></div>
+    <h1>Image Format Converter</h1>
+    <p>이 도구를 사용하는 중입니다. 자동으로 이동 중입니다...</p>
+    <p>
+      이동하지 않는 경우 
+      <a href="https://modifykit.com/#tool-image-tools" class="redirect-link">여기를 클릭하세요</a>
+    </p>
+  </div>
+  
   <script>
-    // Initialize Image Format Converter tool
-    const toolContent = document.getElementById('image-format-convert-content');
-    if (toolContent) {
-      toolContent.innerHTML = `
-        <div class="space-y-4">
-          <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center" id="dropzone">
-            <div class="text-4xl mb-3">🖼️</div>
-            <p class="text-gray-600 dark:text-gray-400">JPG, PNG, WebP, GIF 간 포맷 변환</p>
-            <input type="file" id="fileInput" class="hidden">
-          </div>
-          <textarea id="textInput" placeholder="텍스트를 입력하세요..." class="w-full h-32 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-          <button id="actionBtn" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">
-            처리
-          </button>
-          <div id="result" class="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg hidden">
-            <pre id="resultContent" class="whitespace-pre-wrap break-all"></pre>
-          </div>
-        </div>
-      `;
-      
-      const dropzone = document.getElementById('dropzone');
-      const fileInput = document.getElementById('fileInput');
-      const textInput = document.getElementById('textInput');
-      const actionBtn = document.getElementById('actionBtn');
-      const result = document.getElementById('result');
-      const resultContent = document.getElementById('resultContent');
-      
-      const setOutput = (text) => {
-        resultContent.textContent = text;
-        result.classList.remove('hidden');
-      };
-      
-      dropzone.addEventListener('click', () => fileInput.click());
-      fileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (ev) => textInput.value = ev.target.result;
-          reader.readAsText(file);
-        }
-      });
-      
-      actionBtn.onclick = () => {
-        const input = textInput.value;
-        if (!input.trim()) {
-          alert('텍스트를 입력해주세요.');
-          return;
-        }
-        setOutput(input);
-      };
+    // Redirect to SPA with tool anchor
+    var toolKey = 'image-tools';
+    
+    // Determine redirect target based on environment
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      // Local development: redirect to SPA with hash
+      window.location.href = '/#tool-' + toolKey;
+    } else {
+      // Production: redirect to main site
+      window.location.href = 'https://modifykit.com/#tool-' + toolKey;
     }
   </script>
-  <script src="../js/theme.js"></script>
 </body>
 </html>

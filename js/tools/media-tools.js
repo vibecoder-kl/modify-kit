@@ -1,6 +1,6 @@
 // media-tools.js - Media Converter tools (video/audio conversion)
 
-const initMediaTools = () => {
+window.initMediaTools = () => {
   const content = document.getElementById('media-tools-content');
   if (!content) return;
 

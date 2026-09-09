@@ -1,7 +1,7 @@
 // dev-tools-extended.js - Extended developer utilities
 // (URL encoder, color converter, HTML entity, XML formatter, markdown <-> HTML, hash generator, QR code)
 
-const initDevToolsExtended = () => {
+window.initDevToolsExtended = () => {
   const content = document.getElementById('dev-tools-extended-content');
   if (!content) return;
 

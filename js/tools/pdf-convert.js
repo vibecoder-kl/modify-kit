@@ -1,7 +1,7 @@
 // pdf-convert.js - PDF to image and image to PDF conversion
 // Uses pdf-lib for PDF creation, and canvas for rasterization
 
-const initPdfConvert = () => {
+window.initPdfConvert = () => {
   const content = document.getElementById('pdf-convert-content');
   if (!content) return;
 

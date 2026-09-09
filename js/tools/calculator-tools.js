@@ -1,6 +1,6 @@
 // calculator-tools.js - Simple calculator
 
-const initCalculatorTools = () => {
+window.initCalculatorTools = () => {
   const content = document.getElementById('calculator-tools-content');
   if (!content) return;
 

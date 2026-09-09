@@ -135,10 +135,16 @@ const TOOL_CONFIG = {
     contentId: 'dev-tools-extended-content' 
   },
   'media-advanced': {
-    title: '미디어 고급 도구', 
-    file: 'js/tools/media-advanced.js', 
-    initFn: 'initMediaAdvanced', 
-    contentId: 'media-advanced-content' 
+    title: '미디어 고급 도구',
+    file: 'js/tools/media-advanced.js',
+    initFn: 'initMediaAdvanced',
+    contentId: 'media-advanced-content'
+  },
+  'emoji-char-tool': {
+    title: '이모지/특수문자',
+    files: ['landing/js/emoji-data.js', 'landing/js/emoji-char-tool.js'],
+    initFn: 'initEmojiCharTool',
+    contentId: 'emoji-char-content'
   }
 };
 
@@ -163,16 +169,50 @@ const showTool = (toolKey) => {
       </div>
     `;
     
-    loadScript(config.file, window[config.initFn]);
+    // Add to browser history so back button works
+    if (history.pushState) {
+      history.pushState({ tool: toolKey }, '', '#tool-' + toolKey);
+    }
+    
+    // Load script(s) then call init function
+    const scriptFiles = config.files || [config.file];
+    loadScripts(scriptFiles, function() {
+      const initFn = window[config.initFn];
+      if (typeof initFn === 'function') {
+        initFn();
+      } else {
+        console.warn('Init function not found: ' + config.initFn);
+      }
+    });
   }
 };
 
-// Helper to dynamically load scripts
-const loadScript = (src, callback) => {
-  const script = document.createElement('script');
-  script.src = src;
-  script.onload = callback;
-  document.head.appendChild(script);
+// Helper to dynamically load scripts (single or array), callback when all loaded
+const loadScripts = (src, callback) => {
+  const files = Array.isArray(src) ? src : [src];
+  let loaded = 0;
+  
+  const loadNext = (index) => {
+    if (index >= files.length) {
+      if (typeof callback === 'function') {
+        callback();
+      }
+      return;
+    }
+    
+    const script = document.createElement('script');
+    script.src = files[index];
+    script.onload = function() {
+      loadNext(index + 1);
+    };
+    script.onerror = function() {
+      console.error('Failed to load script: ' + files[index]);
+      loadNext(index + 1); // Continue with next even if this one fails
+    };
+    document.head.appendChild(script);
+  };
+  
+  loadNext(0);
 };
 
 // Go back to dashboard
@@ -184,7 +224,10 @@ const showDashboard = () => {
     viewsContainer.innerHTML = '';
     toolsSection.classList.remove('hidden');
   }
-  if (history.pushState) {
+  // Clear history state and hash
+  if (history.replaceState) {
+    history.replaceState({}, '', window.location.pathname);
+  } else if (history.pushState) {
     window.location.hash = '';
   }
 };

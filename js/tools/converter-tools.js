@@ -1,6 +1,6 @@
 // converter-tools.js - Unit and currency converter tools
 
-const initConverterTools = () => {
+window.initConverterTools = () => {
   const content = document.getElementById('converter-tools-content');
   if (!content) return;
 

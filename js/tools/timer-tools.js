@@ -1,6 +1,6 @@
 // timer-tools.js - Timer and stopwatch
 
-const initTimerTools = () => {
+window.initTimerTools = () => {
   const content = document.getElementById('timer-tools-content');
   if (!content) return;
 

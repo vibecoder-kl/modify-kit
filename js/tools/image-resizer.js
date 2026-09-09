@@ -1,6 +1,6 @@
 // image-resizer.js - Image editing tools (resize, crop, format convert, compress)
 
-const initImageResizer = () => {
+window.initImageResizer = () => {
   const content = document.getElementById('image-resizer-content');
   if (!content) return;
 
@@ -218,6 +218,10 @@ const initImageResizer = () => {
   let currentRotation = 0;
   let currentFlip = { x: false, y: false };
 
+  // State for canvas/ctx, shared across process + effects + watermark remove
+  let canvas = null;
+  let ctx = null;
+
   // Handle file upload
   imageInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -321,8 +325,8 @@ const initImageResizer = () => {
 
     showToast('이미지 처리 중...', 'info');
 
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+    canvas = document.createElement('canvas');
+    ctx = canvas.getContext('2d');
 
     const width = parseInt(document.getElementById('width-input').value) || originalImage.width;
     const height = parseInt(document.getElementById('height-input').value) || originalImage.height;
@@ -488,8 +492,9 @@ const initImageResizer = () => {
     }
 
     canvas.toBlob((blob) => {
-      const url = URL.createObjectURL(blob);
-      downloadLink.href = url;
+      if (processedImageUrl) URL.revokeObjectURL(processedImageUrl);
+      processedImageUrl = URL.createObjectURL(blob);
+      downloadLink.href = processedImageUrl;
       downloadLink.download = 'collage.jpg';
       resultSection.classList.remove('hidden');
       showToast('콜라주 생성 완료!', 'success');
@@ -581,6 +586,13 @@ const initImageResizer = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(tempCanvas, 0, 0);
 
+    if (processedImageUrl) URL.revokeObjectURL(processedImageUrl);
+    canvas.toBlob((blob) => {
+      processedImageUrl = URL.createObjectURL(blob);
+      downloadLink.href = processedImageUrl;
+      downloadLink.download = 'watermark_removed.png';
+      resultSection.classList.remove('hidden');
+    }, 'image/png');
     showToast('워터마크 제거 완료!', 'success');
   });
 };

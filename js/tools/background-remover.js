@@ -1,7 +1,7 @@
 // background-remover.js - Background removal tool
 // Uses on-device AI (ONNX Runtime / TensorFlow.js) to remove backgrounds in-browser
 
-const initBackgroundRemover = () => {
+window.initBackgroundRemover = () => {
   const content = document.getElementById('background-remover-content');
   if (!content) return;
 

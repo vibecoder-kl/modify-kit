@@ -1,6 +1,6 @@
 // text-tools.js - Text processing tools (count, format, convert)
 
-const initTextTools = () => {
+window.initTextTools = () => {
   const content = document.getElementById('text-tools-content');
   if (!content) return;
 

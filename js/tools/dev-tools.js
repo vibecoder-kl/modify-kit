@@ -1,6 +1,6 @@
 // dev-tools.js - Developer utilities
 
-const initDevTools = () => {
+window.initDevTools = () => {
   const content = document.getElementById('dev-tools-content');
   if (!content) return;
 

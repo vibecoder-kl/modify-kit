@@ -1,7 +1,7 @@
 // text-advanced.js - Advanced text processing tools
 // (case converter, whitespace cleaner, encryption, regex tester, JSON <-> CSV)
 
-const initTextAdvanced = () => {
+window.initTextAdvanced = () => {
   const content = document.getElementById('text-advanced-content');
   if (!content) return;
 

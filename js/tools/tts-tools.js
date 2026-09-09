@@ -1,6 +1,6 @@
 // tts-tools.js - Text-to-Speech conversion
 
-const initTtsTools = () => {
+window.initTtsTools = () => {
   const content = document.getElementById('tts-tools-content');
   if (!content) return;
 

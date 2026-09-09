@@ -1,6 +1,6 @@
 // qr-tools.js - QR Code and Barcode generation/scanning
 
-const initQrTools = () => {
+window.initQrTools = () => {
   const content = document.getElementById('qr-tools-content');
   if (!content) return;
 

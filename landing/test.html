@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html>
-<head><!-- Tailwind CSS Configuration -->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test - ModifyKit</title>
+  <meta name="description" content="ModifyKit 테스트 페이지">
+  <link rel="canonical" href="https://modifykit.com/">
   <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {}
-    }
+    window.location.href = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? '/' : 'https://modifykit.com/';
   </script>
-  <title>Test</title></head>
+  <noscript><meta http-equiv="refresh" content="0; url=https://modifykit.com/"></noscript>
+</head>
 <body>
-  <button id="theme-toggle">🌙</button>
-  <img src="https://modifykit.com/img/youtube.svg" alt="YouTube" width="20" height="20">
-  <script src="https://modifykit.com/js/theme.js"></script>
+  <p>테스트 페이지에서 메인 페이지로 이동 중입니다...</p>
 </body>
 </html>
